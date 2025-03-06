@@ -1,0 +1,39 @@
+{
+  "name": "@suilend/sdk-local",
+  "version": "1.1.43",
+  "private": false,
+  "description": "A TypeScript SDK for interacting with the Suilend program",
+  "author": "Suilend",
+  "license": "MIT",
+  "typings": "dist/index.d.ts",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "scripts": {
+    "build": "rm -rf ./dist && tsc",
+    "eslint": "eslint --fix \"./src/**/*.ts\"",
+    "prettier": "prettier --write \"./src/**/*\"",
+    "lint": "bun eslint && bun prettier && bun tsc --noEmit",
+    "release": "bun run build && bun ts-node ./release.ts && cd ./dist && npm publish --access public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/solendprotocol/suilend-public.git"
+  },
+  "bugs": {
+    "url": "https://github.com/solendprotocol/suilend-public/issues"
+  },
+  "dependencies": {
+    "@pythnetwork/pyth-sui-js": "^2.1.0",
+    "bignumber.js": "^9.1.2",
+    "p-limit": "3.1.0",
+    "uuid": "^11.0.3"
+  },
+  "devDependencies": {
+    "ts-node": "^10.9.2"
+  },
+  "peerDependencies": {
+    "@mysten/bcs": "1.2.1",
+    "@mysten/sui": "1.20.0",
+    "@suilend/frontend-sui": "^0.2.38"
+  }
+}
