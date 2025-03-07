@@ -46,6 +46,7 @@ export interface ClaimRewardsArgs {
     reserveId: bigint | TransactionArgument;
     rewardIndex: bigint | TransactionArgument;
     isDepositReward: boolean | TransactionArgument;
+    packageOveride?: string;
 }
 export declare function claimRewards(tx: Transaction, typeArgs: [string, string], args: ClaimRewardsArgs): import("@mysten/sui/transactions").TransactionResult;
 export interface ClosePoolRewardArgs {
@@ -69,12 +70,14 @@ export interface DepositLiquidityAndMintCtokensArgs {
     reserveArrayIndex: bigint | TransactionArgument;
     clock: TransactionObjectInput;
     deposit: TransactionObjectInput;
+    packageOveride?: string;
 }
 export declare function depositLiquidityAndMintCtokens(tx: Transaction, typeArgs: [string, string], args: DepositLiquidityAndMintCtokensArgs): import("@mysten/sui/transactions").TransactionResult;
 export interface FulfillLiquidityRequestArgs {
     lendingMarket: TransactionObjectInput;
     reserveArrayIndex: bigint | TransactionArgument;
     liquidityRequest: TransactionObjectInput;
+    packageOveride?: string;
 }
 export declare function fulfillLiquidityRequest(tx: Transaction, typeArgs: [string, string], args: FulfillLiquidityRequestArgs): import("@mysten/sui/transactions").TransactionResult;
 export interface InitStakerArgs {
@@ -95,6 +98,7 @@ export interface RebalanceStakerArgs {
     lendingMarket: TransactionObjectInput;
     suiReserveArrayIndex: bigint | TransactionArgument;
     systemState: TransactionObjectInput;
+    packageOveride?: string;
 }
 export declare function rebalanceStaker(tx: Transaction, typeArg: string, args: RebalanceStakerArgs): import("@mysten/sui/transactions").TransactionResult;
 export interface UnstakeSuiFromStakerArgs {
@@ -102,6 +106,7 @@ export interface UnstakeSuiFromStakerArgs {
     suiReserveArrayIndex: bigint | TransactionArgument;
     liquidityRequest: TransactionObjectInput;
     systemState: TransactionObjectInput;
+    packageOveride?: string;
 }
 export declare function unstakeSuiFromStaker(tx: Transaction, typeArg: string, args: UnstakeSuiFromStakerArgs): import("@mysten/sui/transactions").TransactionResult;
 export interface UpdateReserveConfigArgs {
@@ -117,6 +122,7 @@ export interface WithdrawCtokensArgs {
     obligationOwnerCap: TransactionObjectInput;
     clock: TransactionObjectInput;
     amount: bigint | TransactionArgument;
+    packageOveride?: string;
 }
 export declare function withdrawCtokens(tx: Transaction, typeArgs: [string, string], args: WithdrawCtokensArgs): import("@mysten/sui/transactions").TransactionResult;
 export interface ObligationArgs {
@@ -213,6 +219,7 @@ export interface DepositCtokensIntoObligationArgs {
     obligationOwnerCap: TransactionObjectInput;
     clock: TransactionObjectInput;
     deposit: TransactionObjectInput;
+    packageOveride?: string;
 }
 export declare function depositCtokensIntoObligation(tx: Transaction, typeArgs: [string, string], args: DepositCtokensIntoObligationArgs): import("@mysten/sui/transactions").TransactionResult;
 export interface DepositCtokensIntoObligationByIdArgs {
@@ -245,6 +252,7 @@ export interface RedeemCtokensAndWithdrawLiquidityRequestArgs {
     clock: TransactionObjectInput;
     ctokens: TransactionObjectInput;
     rateLimiterExemption: TransactionObjectInput | TransactionArgument | null;
+    packageOveride?: string;
 }
 export declare function redeemCtokensAndWithdrawLiquidityRequest(tx: Transaction, typeArgs: [string, string], args: RedeemCtokensAndWithdrawLiquidityRequestArgs): import("@mysten/sui/transactions").TransactionResult;
 export interface RefreshReservePriceArgs {
@@ -252,6 +260,7 @@ export interface RefreshReservePriceArgs {
     reserveArrayIndex: bigint | TransactionArgument;
     clock: TransactionObjectInput;
     priceInfo: TransactionObjectInput;
+    packageOveride?: string;
 }
 export declare function refreshReservePrice(tx: Transaction, typeArg: string, args: RefreshReservePriceArgs): import("@mysten/sui/transactions").TransactionResult;
 export interface SetFeeReceiversArgs {

@@ -15,13 +15,6 @@
     "lint": "bun eslint && bun prettier && bun tsc --noEmit",
     "release": "bun run build && bun ts-node ./release.ts && cd ./dist && npm publish --access public"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/solendprotocol/suilend-public.git"
-  },
-  "bugs": {
-    "url": "https://github.com/solendprotocol/suilend-public/issues"
-  },
   "dependencies": {
     "@pythnetwork/pyth-sui-js": "^2.1.0",
     "bignumber.js": "^9.1.2",

@@ -283,7 +283,7 @@ class SuilendClient {
             clock: transaction.object(utils_1.SUI_CLOCK_OBJECT_ID),
         });
     }
-    claimReward(obligationOwnerCapId, reserveArrayIndex, rewardIndex, rewardType, side, transaction) {
+    claimReward(obligationOwnerCapId, reserveArrayIndex, rewardIndex, rewardType, side, transaction, packageOveride) {
         return (0, functions_1.claimRewards)(transaction, [this.lendingMarket.$typeArgs[0], rewardType], {
             lendingMarket: transaction.object(this.lendingMarket.id),
             cap: transaction.object(obligationOwnerCapId),
@@ -291,6 +291,7 @@ class SuilendClient {
             reserveId: transaction.pure.u64(reserveArrayIndex),
             rewardIndex: transaction.pure.u64(rewardIndex),
             isDepositReward: transaction.pure.bool(side === types_1.Side.DEPOSIT),
+            packageOveride,
         });
     }
     claimRewardAndDeposit(obligationId, rewardReserveArrayIndex, rewardIndex, rewardType, side, depositReserveArrayIndex, transaction) {
@@ -388,7 +389,7 @@ class SuilendClient {
             typeArguments: this.lendingMarket.$typeArgs,
         });
     }
-    refreshAll(transaction, obligation, extraReserveArrayIndex) {
+    refreshAll(transaction, obligation, extraReserveArrayIndex, packageOveride) {
         return __awaiter(this, void 0, void 0, function* () {
             const reserveArrayIndexToPriceId = new Map();
             obligation.deposits.forEach((deposit) => {
@@ -428,11 +429,11 @@ class SuilendClient {
                 yield this.pythClient.updatePriceFeeds(transaction, stalePriceUpdateData, stalePriceIdentifiers);
             }
             for (let i = 0; i < reserveArrayIndexes.length; i++) {
-                this.refreshReservePrices(transaction, priceInfoObjectIds[i], reserveArrayIndexes[i]);
+                this.refreshReservePrices(transaction, priceInfoObjectIds[i], reserveArrayIndexes[i], packageOveride);
             }
         });
     }
-    refreshReservePrices(transaction, priceInfoObjectId, reserveArrayIndex) {
+    refreshReservePrices(transaction, priceInfoObjectId, reserveArrayIndex, packageOveride) {
         return __awaiter(this, void 0, void 0, function* () {
             if (priceInfoObjectId == null) {
                 return;
@@ -442,15 +443,17 @@ class SuilendClient {
                 reserveArrayIndex: transaction.pure.u64(reserveArrayIndex),
                 clock: transaction.object(utils_1.SUI_CLOCK_OBJECT_ID),
                 priceInfo: transaction.object(priceInfoObjectId),
+                packageOveride,
             });
         });
     }
-    deposit(sendCoin, coinType, obligationOwnerCap, transaction) {
+    deposit(sendCoin, coinType, obligationOwnerCap, transaction, packageOveride) {
         const [ctokens] = (0, functions_1.depositLiquidityAndMintCtokens)(transaction, [this.lendingMarket.$typeArgs[0], coinType], {
             lendingMarket: transaction.object(this.lendingMarket.id),
             reserveArrayIndex: transaction.pure.u64(this.findReserveArrayIndex(coinType)),
             clock: transaction.object(utils_1.SUI_CLOCK_OBJECT_ID),
             deposit: sendCoin,
+            packageOveride,
         });
         (0, functions_1.depositCtokensIntoObligation)(transaction, [this.lendingMarket.$typeArgs[0], coinType], {
             lendingMarket: transaction.object(this.lendingMarket.id),
@@ -458,12 +461,14 @@ class SuilendClient {
             obligationOwnerCap,
             clock: transaction.object(utils_1.SUI_CLOCK_OBJECT_ID),
             deposit: ctokens,
+            packageOveride,
         });
         if (isSui(coinType)) {
             (0, functions_1.rebalanceStaker)(transaction, this.lendingMarket.$typeArgs[0], {
                 lendingMarket: transaction.object(this.lendingMarket.id),
                 suiReserveArrayIndex: transaction.pure.u64(this.findReserveArrayIndex(coinType)),
                 systemState: transaction.object(utils_1.SUI_SYSTEM_STATE_OBJECT_ID),
+                packageOveride,
             });
         }
     }
@@ -505,18 +510,19 @@ class SuilendClient {
             transaction.transferObjects([ctokens], transaction.pure.address(ownerId));
         });
     }
-    withdraw(obligationOwnerCapId, obligationId, coinType, value, transaction) {
+    withdraw(obligationOwnerCapId, obligationId, coinType, value, transaction, packageOveride) {
         return __awaiter(this, void 0, void 0, function* () {
             const obligation = yield this.getObligation(obligationId);
             if (!obligation)
                 throw new Error("Error: no obligation");
-            yield this.refreshAll(transaction, obligation);
+            yield this.refreshAll(transaction, obligation, BigInt(0), packageOveride);
             const [ctokens] = (0, functions_1.withdrawCtokens)(transaction, [this.lendingMarket.$typeArgs[0], coinType], {
                 lendingMarket: transaction.object(this.lendingMarket.id),
                 reserveArrayIndex: transaction.pure.u64(this.findReserveArrayIndex(coinType)),
                 obligationOwnerCap: obligationOwnerCapId,
                 clock: transaction.object(utils_1.SUI_CLOCK_OBJECT_ID),
                 amount: BigInt(value),
+                packageOveride,
             });
             const [exemption] = transaction.moveCall({
                 target: `0x1::option::none`,
@@ -525,16 +531,17 @@ class SuilendClient {
                 ],
                 arguments: [],
             });
-            return this.redeem(ctokens, coinType, exemption, transaction);
+            return this.redeem(ctokens, coinType, exemption, transaction, packageOveride);
         });
     }
-    redeem(ctokens, coinType, exemption, transaction) {
+    redeem(ctokens, coinType, exemption, transaction, packageOveride) {
         const [liquidityRequest] = (0, functions_1.redeemCtokensAndWithdrawLiquidityRequest)(transaction, [this.lendingMarket.$typeArgs[0], coinType], {
             lendingMarket: transaction.object(this.lendingMarket.id),
             reserveArrayIndex: transaction.pure.u64(this.findReserveArrayIndex(coinType)),
             clock: transaction.object(utils_1.SUI_CLOCK_OBJECT_ID),
             ctokens,
             rateLimiterExemption: exemption,
+            packageOveride,
         });
         if (isSui(coinType)) {
             (0, functions_1.unstakeSuiFromStaker)(transaction, this.lendingMarket.$typeArgs[0], {
@@ -542,17 +549,19 @@ class SuilendClient {
                 suiReserveArrayIndex: transaction.pure.u64(this.findReserveArrayIndex(coinType)),
                 liquidityRequest,
                 systemState: transaction.object(utils_1.SUI_SYSTEM_STATE_OBJECT_ID),
+                packageOveride,
             });
         }
         return (0, functions_1.fulfillLiquidityRequest)(transaction, [this.lendingMarket.$typeArgs[0], coinType], {
             lendingMarket: transaction.object(this.lendingMarket.id),
             reserveArrayIndex: transaction.pure.u64(this.findReserveArrayIndex(coinType)),
             liquidityRequest,
+            packageOveride,
         });
     }
-    withdrawAndSendToUser(ownerId, obligationOwnerCapId, obligationId, coinType, value, transaction) {
+    withdrawAndSendToUser(ownerId, obligationOwnerCapId, obligationId, coinType, value, transaction, packageOveride) {
         return __awaiter(this, void 0, void 0, function* () {
-            const [withdrawCoin] = yield this.withdraw(obligationOwnerCapId, obligationId, coinType, value, transaction);
+            const [withdrawCoin] = yield this.withdraw(obligationOwnerCapId, obligationId, coinType, value, transaction, packageOveride);
             transaction.transferObjects([withdrawCoin], transaction.pure.address(ownerId));
         });
     }

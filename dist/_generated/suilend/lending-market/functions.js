@@ -119,7 +119,7 @@ function cancelPoolReward(tx, typeArgs, args) {
 }
 function claimRewards(tx, typeArgs, args) {
     return tx.moveCall({
-        target: `${__1.PUBLISHED_AT}::lending_market::claim_rewards`,
+        target: args.packageOveride ? `${args.packageOveride}::suilend::claim_rewards` : `${__1.PUBLISHED_AT}::lending_market::claim_rewards`,
         typeArguments: typeArgs,
         arguments: [
             (0, util_1.obj)(tx, args.lendingMarket),
@@ -165,7 +165,7 @@ function compoundInterest(tx, typeArg, args) {
 }
 function depositLiquidityAndMintCtokens(tx, typeArgs, args) {
     return tx.moveCall({
-        target: `${__1.PUBLISHED_AT}::lending_market::deposit_liquidity_and_mint_ctokens`,
+        target: args.packageOveride ? `${args.packageOveride}::suilend::deposit_liquidity_and_mint_ctokens` : `${__1.PUBLISHED_AT}::lending_market::deposit_liquidity_and_mint_ctokens`,
         typeArguments: typeArgs,
         arguments: [
             (0, util_1.obj)(tx, args.lendingMarket),
@@ -177,7 +177,7 @@ function depositLiquidityAndMintCtokens(tx, typeArgs, args) {
 }
 function fulfillLiquidityRequest(tx, typeArgs, args) {
     return tx.moveCall({
-        target: `${__1.PUBLISHED_AT}::lending_market::fulfill_liquidity_request`,
+        target: args.packageOveride ? `${args.packageOveride}::suilend::fulfill_liquidity_request` : `${__1.PUBLISHED_AT}::lending_market::fulfill_liquidity_request`,
         typeArguments: typeArgs,
         arguments: [
             (0, util_1.obj)(tx, args.lendingMarket),
@@ -212,7 +212,7 @@ function maxBorrowAmount(tx, typeArg, args) {
 }
 function rebalanceStaker(tx, typeArg, args) {
     return tx.moveCall({
-        target: `${__1.PUBLISHED_AT}::lending_market::rebalance_staker`,
+        target: args.packageOveride ? `${args.packageOveride}::suilend::rebalance_staker` : `${__1.PUBLISHED_AT}::lending_market::rebalance_staker`,
         typeArguments: [typeArg],
         arguments: [
             (0, util_1.obj)(tx, args.lendingMarket),
@@ -223,7 +223,7 @@ function rebalanceStaker(tx, typeArg, args) {
 }
 function unstakeSuiFromStaker(tx, typeArg, args) {
     return tx.moveCall({
-        target: `${__1.PUBLISHED_AT}::lending_market::unstake_sui_from_staker`,
+        target: args.packageOveride ? `${args.packageOveride}::suilend::unstake_sui_from_staker` : `${__1.PUBLISHED_AT}::lending_market::unstake_sui_from_staker`,
         typeArguments: [typeArg],
         arguments: [
             (0, util_1.obj)(tx, args.lendingMarket),
@@ -247,7 +247,7 @@ function updateReserveConfig(tx, typeArgs, args) {
 }
 function withdrawCtokens(tx, typeArgs, args) {
     return tx.moveCall({
-        target: `${__1.PUBLISHED_AT}::lending_market::withdraw_ctokens`,
+        target: args.packageOveride ? `${args.packageOveride}::suilend::withdraw_ctokens` : `${__1.PUBLISHED_AT}::lending_market::withdraw_ctokens`,
         typeArguments: typeArgs,
         arguments: [
             (0, util_1.obj)(tx, args.lendingMarket),
@@ -428,7 +428,7 @@ function createLendingMarket(tx, typeArg) {
 }
 function depositCtokensIntoObligation(tx, typeArgs, args) {
     return tx.moveCall({
-        target: `${__1.PUBLISHED_AT}::lending_market::deposit_ctokens_into_obligation`,
+        target: args.packageOveride ? `${args.packageOveride}::suilend::deposit_ctokens_into_obligation` : `${__1.PUBLISHED_AT}::lending_market::deposit_ctokens_into_obligation`,
         typeArguments: typeArgs,
         arguments: [
             (0, util_1.obj)(tx, args.lendingMarket),
@@ -492,7 +492,7 @@ function redeemCtokensAndWithdrawLiquidity(tx, typeArgs, args) {
 }
 function redeemCtokensAndWithdrawLiquidityRequest(tx, typeArgs, args) {
     return tx.moveCall({
-        target: `${__1.PUBLISHED_AT}::lending_market::redeem_ctokens_and_withdraw_liquidity_request`,
+        target: args.packageOveride ? `${args.packageOveride}::suilend::redeem_ctokens_and_withdraw_liquidity_request` : `${__1.PUBLISHED_AT}::lending_market::redeem_ctokens_and_withdraw_liquidity_request`,
         typeArguments: typeArgs,
         arguments: [
             (0, util_1.obj)(tx, args.lendingMarket),
@@ -505,7 +505,7 @@ function redeemCtokensAndWithdrawLiquidityRequest(tx, typeArgs, args) {
 }
 function refreshReservePrice(tx, typeArg, args) {
     return tx.moveCall({
-        target: `${__1.PUBLISHED_AT}::lending_market::refresh_reserve_price`,
+        target: args.packageOveride ? `${args.packageOveride}::suilend::refresh_reserve_price` : `${__1.PUBLISHED_AT}::lending_market::refresh_reserve_price`,
         typeArguments: [typeArg],
         arguments: [
             (0, util_1.obj)(tx, args.lendingMarket),
