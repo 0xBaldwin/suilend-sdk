@@ -505,7 +505,7 @@ function redeemCtokensAndWithdrawLiquidityRequest(tx, typeArgs, args) {
 }
 function refreshReservePrice(tx, typeArg, args) {
     return tx.moveCall({
-        target: args.packageOveride ? `${args.packageOveride}::suilend::refresh_reserve_price` : `${__1.PUBLISHED_AT}::lending_market::refresh_reserve_price`,
+        target: `${__1.PUBLISHED_AT}::lending_market::refresh_reserve_price`,
         typeArguments: [typeArg],
         arguments: [
             (0, util_1.obj)(tx, args.lendingMarket),

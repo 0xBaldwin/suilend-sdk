@@ -58,8 +58,8 @@ export declare class SuilendClient {
     updateRateLimiterConfig(lendingMarketOwnerCapId: string, transaction: Transaction, newRateLimiterConfigArgs: CreateRateLimiterConfigArgs): TransactionResult;
     changeReservePriceFeed(lendingMarketOwnerCapId: string, coinType: string, pythPriceId: string, transaction: Transaction): Promise<TransactionResult>;
     createObligation(transaction: Transaction): TransactionResult;
-    refreshAll(transaction: Transaction, obligation: Obligation<string>, extraReserveArrayIndex?: bigint, packageOveride?: string): Promise<void>;
-    refreshReservePrices(transaction: Transaction, priceInfoObjectId: string, reserveArrayIndex: bigint, packageOveride?: string): Promise<void>;
+    refreshAll(transaction: Transaction, obligation: Obligation<string>, extraReserveArrayIndex?: bigint): Promise<void>;
+    refreshReservePrices(transaction: Transaction, priceInfoObjectId: string, reserveArrayIndex: bigint): Promise<void>;
     deposit(sendCoin: TransactionObjectInput, coinType: string, obligationOwnerCap: TransactionObjectInput, transaction: Transaction, packageOveride?: string): void;
     depositIntoObligation(ownerId: string, coinType: string, value: string, transaction: Transaction, obligationOwnerCapId: string | TransactionResult): Promise<void>;
     depositLiquidityAndGetCTokens(ownerId: string, coinType: string, value: string, transaction: Transaction): Promise<void>;

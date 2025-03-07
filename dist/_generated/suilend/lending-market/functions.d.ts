@@ -260,7 +260,6 @@ export interface RefreshReservePriceArgs {
     reserveArrayIndex: bigint | TransactionArgument;
     clock: TransactionObjectInput;
     priceInfo: TransactionObjectInput;
-    packageOveride?: string;
 }
 export declare function refreshReservePrice(tx: Transaction, typeArg: string, args: RefreshReservePriceArgs): import("@mysten/sui/transactions").TransactionResult;
 export interface SetFeeReceiversArgs {

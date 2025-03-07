@@ -390,7 +390,7 @@ class SuilendClient {
             typeArguments: this.lendingMarket.$typeArgs,
         });
     }
-    refreshAll(transaction, obligation, extraReserveArrayIndex, packageOveride) {
+    refreshAll(transaction, obligation, extraReserveArrayIndex) {
         return __awaiter(this, void 0, void 0, function* () {
             const reserveArrayIndexToPriceId = new Map();
             obligation.deposits.forEach((deposit) => {
@@ -430,11 +430,11 @@ class SuilendClient {
                 yield this.pythClient.updatePriceFeeds(transaction, stalePriceUpdateData, stalePriceIdentifiers);
             }
             for (let i = 0; i < reserveArrayIndexes.length; i++) {
-                this.refreshReservePrices(transaction, priceInfoObjectIds[i], reserveArrayIndexes[i], packageOveride);
+                this.refreshReservePrices(transaction, priceInfoObjectIds[i], reserveArrayIndexes[i]);
             }
         });
     }
-    refreshReservePrices(transaction, priceInfoObjectId, reserveArrayIndex, packageOveride) {
+    refreshReservePrices(transaction, priceInfoObjectId, reserveArrayIndex) {
         return __awaiter(this, void 0, void 0, function* () {
             if (priceInfoObjectId == null) {
                 return;
@@ -444,7 +444,6 @@ class SuilendClient {
                 reserveArrayIndex: transaction.pure.u64(reserveArrayIndex),
                 clock: transaction.object(utils_1.SUI_CLOCK_OBJECT_ID),
                 priceInfo: transaction.object(priceInfoObjectId),
-                packageOveride,
             });
         });
     }
@@ -516,7 +515,7 @@ class SuilendClient {
             const obligation = yield this.getObligation(obligationId);
             if (!obligation)
                 throw new Error("Error: no obligation");
-            yield this.refreshAll(transaction, obligation, BigInt(0), packageOveride);
+            yield this.refreshAll(transaction, obligation, BigInt(0));
             const [ctokens] = (0, functions_1.withdrawCtokens)(transaction, [this.lendingMarket.$typeArgs[0], coinType], {
                 lendingMarket: transaction.object(this.lendingMarket.id),
                 reserveArrayIndex: transaction.pure.u64(this.findReserveArrayIndex(coinType)),
