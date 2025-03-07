@@ -30,8 +30,9 @@ export declare class SuilendClient {
     client: SuiClient;
     pythClient: SuiPythClient;
     pythConnection: SuiPriceServiceConnection;
-    constructor(lendingMarket: LendingMarket<string>, client: SuiClient);
-    static initialize(lendingMarketId: string, lendingMarketType: string, client: SuiClient): Promise<SuilendClient>;
+    packageOveride?: string;
+    constructor(lendingMarket: LendingMarket<string>, client: SuiClient, packageOveride?: string);
+    static initialize(lendingMarketId: string, lendingMarketType: string, client: SuiClient, packageOveride?: string): Promise<SuilendClient>;
     static getFeeReceivers(client: SuiClient, lendingMarketId: string): Promise<FeeReceivers>;
     static createNewLendingMarket(registryId: string, lendingMarketType: string, transaction: Transaction): {
         $kind: "NestedResult";
@@ -64,7 +65,7 @@ export declare class SuilendClient {
     depositLiquidityAndGetCTokens(ownerId: string, coinType: string, value: string, transaction: Transaction): Promise<void>;
     withdraw(obligationOwnerCapId: string, obligationId: string, coinType: string, value: string, transaction: Transaction, packageOveride?: string): Promise<TransactionResult>;
     redeem(ctokens: TransactionObjectInput, coinType: string, exemption: TransactionObjectInput, transaction: Transaction, packageOveride?: string): TransactionResult;
-    withdrawAndSendToUser(ownerId: string, obligationOwnerCapId: string, obligationId: string, coinType: string, value: string, transaction: Transaction, packageOveride?: string): Promise<void>;
+    withdrawAndSendToUser(ownerId: string, obligationOwnerCapId: string, obligationId: string, coinType: string, value: string, transaction: Transaction): Promise<void>;
     borrow(obligationOwnerCapId: string, obligationId: string, coinType: string, value: string, transaction: Transaction): Promise<TransactionResult>;
     borrowAndSendToUser(ownerId: string, obligationOwnerCapId: string, obligationId: string, coinType: string, value: string, transaction: Transaction): Promise<void>;
     repay(obligationId: string, coinType: string, coin: TransactionObjectInput, transaction: Transaction): TransactionResult;

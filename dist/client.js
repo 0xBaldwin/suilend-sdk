@@ -96,19 +96,20 @@ function getLatestPackageId(client, upgradeCapId) {
     });
 }
 class SuilendClient {
-    constructor(lendingMarket, client) {
+    constructor(lendingMarket, client, packageOveride) {
         this.lendingMarket = lendingMarket;
         this.client = client;
         this.pythClient = new pyth_sui_js_1.SuiPythClient(client, PYTH_STATE_ID, WORMHOLE_STATE_ID);
         this.pythConnection = new pyth_sui_js_1.SuiPriceServiceConnection("https://hermes.pyth.network");
+        this.packageOveride = packageOveride;
     }
-    static initialize(lendingMarketId, lendingMarketType, client) {
+    static initialize(lendingMarketId, lendingMarketType, client, packageOveride) {
         return __awaiter(this, void 0, void 0, function* () {
             const lendingMarket = yield structs_2.LendingMarket.fetch(client, (0, reified_1.phantom)(lendingMarketType), lendingMarketId);
             const latestPackageId = yield getLatestPackageId(client, SUILEND_UPGRADE_CAP_ID);
             console.log("latestPackageId", latestPackageId);
             (0, suilend_1.setPublishedAt)(latestPackageId);
-            return new SuilendClient(lendingMarket, client);
+            return new SuilendClient(lendingMarket, client, packageOveride);
         });
     }
     static getFeeReceivers(client, lendingMarketId) {
@@ -485,7 +486,7 @@ class SuilendClient {
             const [sendCoin] = transaction.splitCoins(isSui(coinType)
                 ? transaction.gas
                 : transaction.object(mergeCoin.coinObjectId), [value]);
-            this.deposit(sendCoin, coinType, obligationOwnerCapId, transaction);
+            this.deposit(sendCoin, coinType, obligationOwnerCapId, transaction, this.packageOveride);
         });
     }
     depositLiquidityAndGetCTokens(ownerId, coinType, value, transaction) {
@@ -559,9 +560,9 @@ class SuilendClient {
             packageOveride,
         });
     }
-    withdrawAndSendToUser(ownerId, obligationOwnerCapId, obligationId, coinType, value, transaction, packageOveride) {
+    withdrawAndSendToUser(ownerId, obligationOwnerCapId, obligationId, coinType, value, transaction) {
         return __awaiter(this, void 0, void 0, function* () {
-            const [withdrawCoin] = yield this.withdraw(obligationOwnerCapId, obligationId, coinType, value, transaction, packageOveride);
+            const [withdrawCoin] = yield this.withdraw(obligationOwnerCapId, obligationId, coinType, value, transaction, this.packageOveride);
             transaction.transferObjects([withdrawCoin], transaction.pure.address(ownerId));
         });
     }
